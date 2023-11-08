@@ -13,7 +13,7 @@ const ProductCard: React.FC<ProductCard> = ({
     data
 }) => {
     const router = useRouter();
-    console.log(data)
+    // console.log(data)
 
     const handleClick = () => {
         router.push(`/product/${data?.id}`);
