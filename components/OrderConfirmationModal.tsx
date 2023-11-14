@@ -55,7 +55,7 @@ const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({ isOpen,
                     <div>Nombre: {customerData.firstName} {customerData.lastName}</div>
                     <Separator className="bg-slate-400 py-1/2" />
                     {items.map((item, index) => (
-                        <div className="flex justify-between">
+                        <div key={index} className="flex justify-between">
                             <div>
                                 <h2>{item.name}</h2>
                                 <p className="text-gray-500 text-sm">Caja x 6 botellas.</p>
