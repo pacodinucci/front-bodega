@@ -58,8 +58,8 @@ const PreviewModal = () => {
                             <p className="text-sm text-gray-500">Este vino encarna una rica paleta de sabores, con notas de roble y frutas maduras. Perfecto para cenas elegantes o como regalo, su cuerpo equilibrado y su acabado persistente deleitarán a cualquier amante del vino. Ideal para acompañar carnes y quesos curados.</p>
                         </div>
                     </div>
-                    <div className="flex justify-center">
-                        <Button className="flex gap-4" onClick={onAddToCart}>
+                    <div className="flex justify-center mt-4">
+                        <Button className="flex gap-4 py-2 bg-green-500" onClick={onAddToCart}>
                             <p className="font-normal">Agregar al carrito</p>
                             <ShoppingCart />
                         </Button>

@@ -1,11 +1,26 @@
 "use client";
 
+import useCart from "@/hooks/use-cart";
 import { ShoppingCart } from "lucide-react"
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 const Navbar: React.FC = () => {
 
     const router = useRouter();
+    const cart = useCart();
+
+    const [isMounted, setIsMounted] = useState(false);
+    const [cartItemsCount, setCartItemsCount] = useState(cart.items.length);
+
+    useEffect(() => {
+        setIsMounted(true);
+        setCartItemsCount(cart.items.length);
+    }, [cart])
+
+    if (!isMounted) {
+        return null;
+    };
 
     return (
         <nav className='absolute w-full z-50 flex items-center justify-between pt-4 px-6'>
@@ -20,7 +35,10 @@ const Navbar: React.FC = () => {
                 </ul>
             </div>
             <div>
-                <ShoppingCart size={20} className="mr-12 cursor-pointer text-white hover:scale-110 transition-transform" onClick={() => router.push("/cart")} />
+                <ShoppingCart size={22} className="mr-12 cursor-pointer text-white hover:scale-125 hover:transition-transform" onClick={() => router.push("/cart")} />
+                <span className="relative bottom-3 left-3 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-green-700 rounded-full">
+                    {cartItemsCount}
+                </span>
             </div>
         </nav>
     )
