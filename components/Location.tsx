@@ -19,7 +19,8 @@ const Location: React.FC<LocationProps> = ({
         if (mapRef.current === null) {
             mapRef.current = L.map('map', {
                 center,
-                zoom
+                zoom,
+                scrollWheelZoom: false,
             });
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

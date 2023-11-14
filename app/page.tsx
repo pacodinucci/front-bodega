@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { ShoppingCart } from "lucide-react";
 import imagen1 from "@/public/nuestrosvinos.png";
 import imagen2 from "@/public/leyendatienda.png";
 import getProducts from "@/actions/get-products";
+import Navbar from "@/components/Navbar";
 import ProductList from "@/components/ProductList";
 import Slider from "@/components/Slider";
 import Map from "@/components/Map";
+import Form from "@/components/Form";
 
 export default async function Home() {
 
@@ -19,21 +20,7 @@ export default async function Home() {
 
   return (
     <>
-      <nav className='absolute w-full z-50 flex items-center justify-between pt-4 px-6'>
-        <img src="logogaviotas.svg" alt="logo" className='h-[10vh] w-[10vw]' />
-        <div>
-          <ul className='flex text-white gap-12 mr-24 py-4 px-4 border-b border-white oswald.classname'>
-            <li>LOS VINOS</li>
-            <li>LA BODEGA</li>
-            <li>BARRICA PROPIA</li>
-            <li>EVENTOS</li>
-            <li>CONTACTO</li>
-          </ul>
-        </div>
-        <div>
-          <ShoppingCart size={20} color="white" className="mr-12" />
-        </div>
-      </nav>
+      <Navbar />
       <main>
         <section className='bg-landing h-screen bg-cover bg-center flex items-center justify-center'>
           <div className='absolute inset-0 bg-black opacity-50'></div>
@@ -89,14 +76,7 @@ export default async function Home() {
             </div>
             <div className="w-3/4  rounded-lg space-y-4">
               <h3 className="text-2xl text-gray-800 font-semibold">CONTACTO</h3>
-                <form className="flex flex-col space-y-4">
-                  <div className="flex space-x-4">
-                    <input type="text" placeholder="Nombre" className="flex-1 px-4 py-2 border-2 bg-transparent border-slate-500 rounded focus:outline-none focus:ring focus:border-slate-700" />
-                    <input type="email" placeholder="Email" className="flex-1 px-4 py-2 border-2 bg-transparent border-slate-500 rounded focus:outline-none focus:ring focus:border-slate-700" />
-                  </div>
-                  <textarea name="" id="" cols={30} rows={11} placeholder="Escriba su mensaje..." className="px-4 py-2 border-2 bg-transparent border-slate-500 rounded focus:outline-none focus:ring focus:border-slate-700"></textarea>
-                  <input type="submit" className="w-full sm:w-auto px-6 py-2 border border-transparent text-white bg-slate-500 rounded hover:bg-slate-700 cursor-pointer" value="Enviar" />
-                </form>
+                <Form />
             </div>
           </div>
         </section>

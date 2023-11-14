@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 import { Spinnaker } from 'next/font/google'
+import ModalProvider from '@/providers/modal-providers'
+import ToastProvider from '@/providers/toast-provider'
+
 import './globals.css'
 
 
@@ -20,7 +23,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={spinnaker.className}>{children}</body>
+      <body className={spinnaker.className}>
+        <ModalProvider />
+        <ToastProvider />
+        {children}
+      </body>
     </html>
   )
 }
