@@ -2,6 +2,8 @@
 
 import useCart from "@/hooks/use-cart";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 import Currency from "@/components/ui/Currency";
 import useCustomerDataModal from "@/hooks/use-customer-data";
@@ -17,6 +19,8 @@ const Summary = () => {
     const items = useCart((state) => state.items);
     const removeAll = useCart((state) => state.removeAll);
     const customerDataModal = useCustomerDataModal();
+    const searchParams = useSearchParams();
+
     const [totalAmount, setTotalAmount] = useState(0);
     const [shipnowPrice, setShipnowPrice] = useState(0);
     const [selectedOption, setSelectedOption] = useState("Shipnow");
@@ -109,6 +113,17 @@ const Summary = () => {
         const result = Number(totalPrice) + Number(shipmentValue);
         setTotalAmount(result);
     }, [totalPrice, shipmentValue]);
+
+    useEffect(() => {
+        if (searchParams.get("success")) {
+            toast.success("Payment completed.");
+            removeAll();
+        }
+        
+        if (searchParams.get("canceled")) {
+            toast.error("Something went wrong.")
+        }
+    }, [searchParams, removeAll])
 
     const handleConfirmClick = () => {
         setIsConfirmed(true);
