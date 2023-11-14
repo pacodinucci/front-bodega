@@ -179,9 +179,9 @@ const Summary = () => {
                             <Currency value={totalAmount} />
                         </div>
                         <div className="mt-4">
-                            <Button className="bg-green-700 rounded-sm" onClick={handleConfirmClick}>
+                            {/* <Button className="bg-green-700 rounded-sm" onClick={handleConfirmClick}>
                                 Confirmar y elegir método de pago
-                            </Button>
+                            </Button> */}
                         </div>
                     </div>
                 ) : (
