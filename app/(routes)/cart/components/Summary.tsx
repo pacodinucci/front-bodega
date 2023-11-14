@@ -5,20 +5,24 @@ import { useEffect, useState } from "react";
 
 import Currency from "@/components/ui/Currency";
 import useCustomerDataModal from "@/hooks/use-customer-data";
-import Modal from "@/components/ui/Modal";
+import FormModal from "@/components/FormModal";
+import OrderConfirmationModal from "@/components/OrderConfirmationModal";
 import Button from "@/components/ui/Button";
 import { Separator } from "@radix-ui/react-separator";
 import getCostumer from "@/actions/get-costumer";
 import getShipnowPrice from "@/actions/get-shipnow";
 
+
 const Summary = () => {
     const items = useCart((state) => state.items);
     const removeAll = useCart((state) => state.removeAll);
+    const customerDataModal = useCustomerDataModal();
     const [totalAmount, setTotalAmount] = useState(0);
     const [shipnowPrice, setShipnowPrice] = useState(0);
     const [selectedOption, setSelectedOption] = useState("Shipnow");
     const [shipmentValue, setShipmentValue] = useState(shipnowPrice);
-    const customerDataModal = useCustomerDataModal();
+    const [isConfirmed, setIsConfirmed] = useState(false);
+    
 
     const [customerData, setCustomerData] = useState({
         firstName: '',
@@ -83,6 +87,8 @@ const Summary = () => {
                 console.log("Shipnow Price: ", result);
                 setShipnowPrice(result);
 
+                console.log(items)
+
                 const calculatedShipmentValue = Number(result);
                 setShipmentValue(calculatedShipmentValue);
 
@@ -94,7 +100,7 @@ const Summary = () => {
             }
         }
 
-        if(customerData.zipCode) {
+        if (customerData.zipCode) {
             fetchShipnowPrice();
         }
     }, [shipnowPrice, customerData])
@@ -104,16 +110,20 @@ const Summary = () => {
         setTotalAmount(result);
     }, [totalPrice, shipmentValue]);
 
+    const handleConfirmClick = () => {
+        setIsConfirmed(true);
+    };
+
     return (
         <>
-            <div className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
+            <div className="mt-16 rounded-sm bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
                 <h1 className="text-lg font-semibold text-gray-900 pb-2">
                     Resumen de orden
                 </h1>
                 <Separator />
                 {customerData.zipCode ? (
-                    <>
-                        <div className="flex items-center justify-between border-t border-gray-200 pt-4 my-4">
+                    <div className="flex flex-col items-center">
+                        <div className="w-full flex items-center justify-between border-t border-gray-200 pt-4 my-4">
                             <div className="text-lg font-large text-gray-900">
                                 Subtotal
                             </div>
@@ -159,16 +169,21 @@ const Summary = () => {
                                     </div>
                                     <Currency value='0' disabled={selectedOption !== "Pick-up"} />
                                 </div>
-                                <p className={`text-sm mt-4 ${selectedOption === 'Pick-up' ? 'text-gray-400' : 'text-gray-200'}`}>Se retira por Roque Perez 4263, barrio Saavedra, Capital Federal.</p>
+                                <p className={`text-sm mt-4 ${selectedOption === 'Pick-up' ? 'text-gray-400' : 'text-gray-200'}`}>Se retira por Roque Perez 4263, Saavedra, Capital Federal.</p>
                             </div>
                         </div>
-                        <div className="flex justify-between mt-4 border-t py-4">
+                        <div className="w-full flex justify-between mt-4 border-t py-4">
                             <h1 className="text-xl font-large text-gray-900">
                                 Total a pagar
                             </h1>
                             <Currency value={totalAmount} />
                         </div>
-                    </>
+                        <div className="mt-4">
+                            <Button className="bg-green-700 rounded-sm" onClick={handleConfirmClick}>
+                                Confirmar y elegir método de pago
+                            </Button>
+                        </div>
+                    </div>
                 ) : (
                     <>
                         <h1 className="mb-4">
@@ -186,56 +201,22 @@ const Summary = () => {
 
                 )}
             </div>
-            <Modal open={customerDataModal.isOpen} onClose={customerDataModal.onClose}>
-                <div className="flex flex-col gap-6 w-full">
-                    <h2 className="w-full">Por favor, completá los datos para cotizar el envío:</h2>
-                    <form className="w-full flex flex-col items-center gap-6" onSubmit={handleSubmit}>
-                        <div className="flex w-full gap-12 justify-center">
-                            <div className="flex flex-col">
-                                <input type="text" name="firstName" className="text-lg border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none" autoFocus onChange={inputChange} />
-                                <label className="text-gray-400 text-sm">Nombre</label>
-                            </div>
-                            <div className="flex flex-col">
-                                <input type="text" name="lastName" className="text-lg border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none" onChange={inputChange} />
-                                <label className="text-gray-400 text-sm">Apellido</label>
-                            </div>
-                        </div>
-                        <div className="flex w-full gap-12 justify-center">
-                            <div className="flex flex-col">
-                                <input type="email" name="email" className="text-lg border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none" autoFocus onChange={inputChange} />
-                                <label className="text-gray-400 text-sm">Email</label>
-                            </div>
-                            <div className="flex flex-col">
-                                <input type="text" name="phone" className="text-lg border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none" onChange={inputChange} />
-                                <label className="text-gray-400 text-sm">Teléfono</label>
-                            </div>
-                        </div>
-                        <div className="flex w-full gap-12 justify-center">
-                            <div className="flex flex-col">
-                                <input type="text" name="address" className="text-lg border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none" onChange={inputChange} />
-                                <label className="text-gray-400 text-sm">Dirección</label>
-                            </div>
-                            <div className="flex flex-col">
-                                <input type="text" name="city" className="text-lg border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none" onChange={inputChange} />
-                                <label className="text-gray-400 text-sm">Ciudad</label>
-                            </div>
-                        </div>
-                        <div className="flex gap-12 justify-center" >
-                            <div className="flex flex-col">
-                                <input type="text" name="zipCode" className="text-lg border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none" onChange={inputChange} />
-                                <label className="text-gray-400 text-sm">Código Postal</label>
-                            </div>
-                            <div className="flex flex-col">
-                                <input type="text" name="country" className="text-lg border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none" onChange={inputChange} />
-                                <label className="text-gray-400 text-sm">País</label>
-                            </div>
-                        </div>
-                        <Button type="submit" className="mt-8 w-1/3 p-1">
-                            Enviar
-                        </Button>
-                    </form>
-                </div>
-            </Modal>
+            <FormModal 
+                isOpen={customerDataModal.isOpen}
+                onClose={customerDataModal.onClose}
+                inputChange={inputChange}
+                onSubmit={handleSubmit}
+                customerData={customerData}
+            />
+            <OrderConfirmationModal 
+                isOpen={isConfirmed}
+                onClose={() => setIsConfirmed(false)}
+                totalAmount={totalAmount}
+                customerData={customerData}
+                selectedOption={selectedOption}
+                items={items}
+                shipmentValue={shipmentValue}
+            />
         </>
     )
 }

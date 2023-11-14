@@ -59,7 +59,7 @@ const PreviewModal = () => {
                         </div>
                     </div>
                     <div className="flex justify-center mt-4">
-                        <Button className="flex gap-4 py-2 bg-green-500" onClick={onAddToCart}>
+                        <Button className="flex gap-4 py-2 bg-green-500 rounded-sm" onClick={onAddToCart}>
                             <p className="font-normal">Agregar al carrito</p>
                             <ShoppingCart />
                         </Button>
