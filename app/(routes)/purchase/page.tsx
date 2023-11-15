@@ -18,16 +18,16 @@ const PurchasePage = () => {
         setIsMounted(true);
     }, []);
 
-    if (!isMounted) {
-        return null;
-    }
-
     useEffect(() => {
         if(searchParams.get("success")) {
             toast.success("Pago completado.")
             removeAll();
         }
     }, [])
+
+    if (!isMounted) {
+        return null;
+    }
 
     return (
         <div className="bg-white">
