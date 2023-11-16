@@ -30,7 +30,7 @@ const ProductCard: React.FC<ProductCard> = ({
     }
 
     return (
-        <div onClick={onPreview} className="w-full h-[60vh] px-6 py-4 botttom-5 border-2 rounded-sm cursor-pointer transition-all duration-500 hover:border-4 hover:shadow-lg">
+        <div onClick={onPreview} className="w-full h-[60vh] px-6 py-4 botttom-5 border-2 rounded-sm cursor-pointer transition-all duration-500 hover:shadow-lg">
             <div>
                 <Image 
                     src={data?.images[0].url}

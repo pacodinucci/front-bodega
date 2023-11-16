@@ -1,5 +1,6 @@
 import Image from "next/image";
-import imagen1 from "@/public/nuestrosvinos.png";
+
+import imagen1 from "@/public/compranuestrosvinos.png";
 import imagen2 from "@/public/leyendatienda.png";
 import getProducts from "@/actions/get-products";
 import Navbar from "@/components/Navbar";
@@ -7,6 +8,8 @@ import ProductList from "@/components/ProductList";
 import Slider from "@/components/Slider";
 import Map from "@/components/Map";
 import Form from "@/components/Form";
+import CartIcon from "@/components/CartIcon";
+
 
 export default async function Home() {
 
@@ -28,7 +31,7 @@ export default async function Home() {
         </section>
         <section className="mb-24">
           <div className="flex justify-between items-end px-16 pt-8 mb-8">
-            <Image src={imagen1} alt="logotipotienda" width={250} />
+            <Image src={imagen1} alt="logotipotienda" width={300} />
             <div className="mb-2 border-l-4 pl-4 border-amber-700">
               <Image src={imagen2} alt="leyendatienda" width={350} />
             </div>
@@ -76,11 +79,12 @@ export default async function Home() {
             </div>
             <div className="w-3/4  rounded-lg space-y-4">
               <h3 className="text-2xl text-gray-800 font-semibold">CONTACTO</h3>
-                <Form />
+              <Form />
             </div>
           </div>
         </section>
       </main>
+      <CartIcon />
     </>
   )
 }
